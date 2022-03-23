@@ -6,16 +6,31 @@ import {
   View,
   Image,
   FlatList,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import { useEffect, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import categoriesData from "../assets/data/categoriesData";
 import popularData from "../assets/data/popularData";
 import colors from "../assets/colors/colors";
+import axios from "axios";
 
-export default Home = () => {
-  const renderCategoryItem = ({ item }) => {
+export default Home = ({ navigation }) => {
+  console.log("TESTING HERE");
+  const [categories, setCategories] = useState(["testingr", "here", "hello"]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:4545/categories`).then((res) => {
+      console.log(res.data);
+      setCategories(res.data)
+    });
+  }, []);
+
+  const renderCategoryItem = ({item}) => {
+    console.log("new Item");
+    console.log(item);
     return (
       <View
         style={[
@@ -26,7 +41,27 @@ export default Home = () => {
           },
         ]}
       >
-        <Image source={item.image} style={styles.categoryImage} />
+        {/* <Image source={item.image} style={styles.categoryImage} /> */}
+
+        {}
+
+        {/* test area */}
+        {/* {categories.map((items) =>(
+          key={id},
+         <Text>{categories}</Text>
+
+        ))} */}
+
+        {/* {popularData.map((item) => (
+          <TouchableOpacity
+          key={item.id}
+          onPress={() =>
+            navigation.navigate('Details', {
+              item: item,
+            })
+          }> */}
+
+        {/* test area */}
         <Text style={styles.categoryItemTitle}>{item.title}</Text>
         <View
           style={[
@@ -49,95 +84,107 @@ export default Home = () => {
 
   return (
     <View style={styles.container}>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" showsVerticalScrollIndicator={false}>
-
-       
-      <SafeAreaView>
-        <View style={styles.wrapper}>
-          <Image
-            source={require("../assets/images/profile.png")}
-            style={styles.profileImage}
-          />
-          <Feather name="menu" size={24} color={colors.textDark} />
-        </View>
-      </SafeAreaView>
-      {/* titles */}
-      <View style={styles.titlesWrapper}>
-        <Text style={styles.titlesSubtitle}>Food</Text>
-        <Text style={styles.titlesTitle}>Delivery</Text>
-      </View>
-      {/* search */}
-      <View style={styles.searchWrapper}>
-        <Feather name="search" size={16} color={colors.textDark} />
-        <View style={styles.search}>
-          <Text style={styles.searchText}>Search</Text>
-        </View>
-      </View>
-
-      {/* categories */}
-      <View style={styles.categoriesWrapper}>
-        <Text style={styles.categoriesTitle}>Categories</Text>
-        <View style={styles.categoriesListWrapper}>
-          <FlatList
-            data={categoriesData}
-            renderItem={renderCategoryItem}
-            keyExtractor={(item) => item.id}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </View>
-      {/* popular */}
-      <View style={styles.popularWrapper}>
-        <Text style={styles.popularTitle}>Popular</Text>
-        {popularData.map((item) => (
-          <View
-            key={item}
-            style={[
-              styles.popularCardWrapper,
-              {
-                marginTop: item.id == 1 ? 10 : 20,
-              },
-            ]}
-          >
-            <View>
-              <View>
-                <View style={styles.popularTopWrapper}>
-                  <MaterialCommunityIcons
-                    name="crown"
-                    size={12}
-                    color={colors.primary}
-                  />
-                  <Text style={styles.popularTopText}>top of the week</Text>
-                </View>
-                <View style={styles.popularTitlesWrapper}>
-                  <Text style={styles.popularTitlesTitle}>{item.title}</Text>
-                  <Text style={styles.popularTitlesWeight}>
-                    Weight {item.weight}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.popularCardBottom}>
-                <View style={styles.addPizzaBtn}>
-                  <Feather name="plus" size={10} color={colors.textDark} />
-                </View>
-                <View style={styles.ratingWrapper}>
-                  <MaterialCommunityIcons
-                    name="star"
-                    size={10}
-                    color={colors.textDark}
-                  />
-                  <Text style={styles.rating}>{item.rating}</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.popularCardRight}>
-                <Image  style={styles.popularCardImg} source={item.image}/>
-            </View>
-
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
+      >
+        <SafeAreaView>
+          <View style={styles.wrapper}>
+            <Image
+              source={require("../assets/images/profile.jpeg")}
+              style={styles.profileImage}
+            />
+            <Feather name="menu" size={24} color={colors.textDark} />
           </View>
-        ))}
-      </View>
+        </SafeAreaView>
+        {/* titles */}
+        <View style={styles.titlesWrapper}>
+          <Text style={styles.titlesSubtitle}>Food</Text>
+          <Text style={styles.titlesTitle}>Delivery</Text>
+        </View>
+        {/* search */}
+        <View style={styles.searchWrapper}>
+          <Feather name="search" size={16} color={colors.textDark} />
+          <View style={styles.search}>
+            <Text style={styles.searchText}>Search</Text>
+          </View>
+        </View>
+
+        {/* categories */}
+        <View style={styles.categoriesWrapper}>
+          <Text style={styles.categoriesTitle}>Categories</Text>
+          <View style={styles.categoriesListWrapper}>
+            {/* HELP!!!!!!!!!!! */}
+            <FlatList
+              data={categories}
+              renderItem={renderCategoryItem}
+              keyExtractor={(item) => item.id}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+        {/* popular */}
+        <View style={styles.popularWrapper}>
+          <Text style={styles.popularTitle}>Popular</Text>
+          {popularData.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              onPress={() =>
+                navigation.navigate("Details", {
+                  item: item,
+                })
+              }
+            >
+              <View
+                key={item.id}
+                style={[
+                  styles.popularCardWrapper,
+                  {
+                    marginTop: item.id == 1 ? 10 : 20,
+                  },
+                ]}
+              >
+                <View>
+                  <View>
+                    <View style={styles.popularTopWrapper}>
+                      <MaterialCommunityIcons
+                        name="crown"
+                        size={12}
+                        color={colors.primary}
+                      />
+                      <Text style={styles.popularTopText}>top of the week</Text>
+                    </View>
+                    <View style={styles.popularTitlesWrapper}>
+                      <Text style={styles.popularTitlesTitle}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.popularTitlesWeight}>
+                        Weight {item.weight}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.popularCardBottom}>
+                    <View style={styles.addPizzaBtn}>
+                      <Feather name="plus" size={10} color={colors.textDark} />
+                    </View>
+                    <View style={styles.ratingWrapper}>
+                      <MaterialCommunityIcons
+                        name="star"
+                        size={10}
+                        color={colors.textDark}
+                      />
+                      <Text style={styles.rating}>{item.rating}</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.popularCardRight}>
+                  <Image style={styles.popularCardImg} source={item.image} />
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -206,12 +253,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     shadowColor: colors.black,
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    elevation: 2
+    elevation: 2,
   },
   categoryImage: {
     width: 60,
@@ -252,12 +299,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     shadowColor: colors.black,
     shadowOffset: {
-        width: 0,
-        height: 2
+      width: 0,
+      height: 2,
     },
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    elevation: 2
+    elevation: 2,
   },
   popularTopWrapper: {
     flexDirection: "row",
@@ -299,15 +346,14 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 12,
     color: colors.textDark,
-    marginLeft: 5
+    marginLeft: 5,
   },
-  popularCardRight:{
-      marginLeft: 40
+  popularCardRight: {
+    marginLeft: 40,
   },
   popularCardImg: {
-      width: 210,
-      height: 125,
-      resizeMode: 'contain'
-  }
-
+    width: 210,
+    height: 125,
+    resizeMode: "contain",
+  },
 });

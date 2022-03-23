@@ -1,0 +1,12 @@
+CREATE TABLE Categories (
+id SERIAL PRIMARY KEY,
+title VARCHAR(100),
+selected BOOL
+);
+
+INSERT INTO CATEGORIES (title, selected)
+VALUES('Pizza', true),
+('Seafood', false),
+('Soft Drinks', false);
+
+-- DROP TABLE CATEGORIES
