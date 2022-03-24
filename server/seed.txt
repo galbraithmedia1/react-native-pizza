@@ -10,3 +10,21 @@ VALUES('Pizza', true),
 ('Soft Drinks', false);
 
 -- DROP TABLE CATEGORIES
+
+
+
+//new table
+
+-- CREATE TABLE Categories (
+-- id SERIAL PRIMARY KEY,
+-- title VARCHAR(100),
+-- url VARCHAR(1000),
+-- selected BOOL
+-- );
+INSERT INTO CATEGORIES (title,url, selected)
+VALUES('Pizza','https://cdn-icons.flaticon.com/png/512/3041/premium/3041130.png?token=exp=1648074962~hmac=36b5ae87529693aea579e4268dafaa69'  , true),
+('Seafood','https://cdn-icons.flaticon.com/png/512/2740/premium/2740758.png?token=exp=1648075185~hmac=31218fcdbd7e9d49d93e4a10086312e6', false),
+('Soft Drinks','https://cdn-icons.flaticon.com/png/512/3194/premium/3194639.png?token=exp=1648075238~hmac=0614120d2f2f6b406944abacda81523f', false);
+
+
+-- DROP TABLE CATEGORIES

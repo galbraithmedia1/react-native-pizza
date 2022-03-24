@@ -24,6 +24,7 @@ module.exports ={
         console.log(categories_id)
         sequelize.query(`SELECT * FROM categories`).then((dbRes)=>{
             return res.status(200).send(dbRes[0])
+            
         })
     }
 

@@ -42,6 +42,7 @@ export default Home = ({ navigation }) => {
         ]}
       >
         {/* <Image source={item.image} style={styles.categoryImage} /> */}
+         <Image source={{uri:`${item.url}`}} style={[styles.categoryImage, { width: 60, height: 60 }]} key={item.id} />
 
         {}
 
@@ -261,8 +262,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   categoryImage: {
-    width: 60,
-    height: 60,
+    // width: 60,
+    // height: 60,
     marginTop: 24,
     alignSelf: "center",
     marginHorizontal: 20,
